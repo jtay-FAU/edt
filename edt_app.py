@@ -110,6 +110,25 @@ def main():
     previous_email = st.text_area("Previous Email History (Optional)")
     tone = st.selectbox("Tone of the Email", ["Friendly", "Professional", "Serious", "Casual"])
     language = st.selectbox("Language", ["English (UK)", "English (US)", "French", "Portuguese", "Spanish", "German", "Italian", "Turkish", "Japanese", "Chinese", "Vietnamese", "Korean", "Russian", "Persian", "Arabic", "Urdu", "Hindi", "Tamil"])
+
+    st.header("Topics")
+    st.markdown("""
+        **What are Topics?**
+        
+        Topics are the key points that you would like to include in the email. They can range from a few words to multiple sentences.
+        
+        **Examples:**
+        
+        1. **Brief topics**: 
+            - "Mention the new product launch"
+            - "Ask about the upcoming meeting"
+        
+        2. **Detailed topics**:
+            - "Explain the pricing details: We've introduced a 10% discount on all services until the end of the month."
+            - "Request feedback: Could you provide your feedback on the latest project deliverables?"
+        
+        You can add multiple topics to ensure that all the important points are covered in the email.
+    """)
     
     topics = []
     for i in range(3):
@@ -120,7 +139,7 @@ def main():
         extra_topics = st.text_area("Additional Topics (one per line)").split('\n')
         topics.extend(extra_topics)
 
-    run_button = st.button("Generate Email")
+    run_button = st.button("Generate Email")    
     
     if run_button:
         sender = {
