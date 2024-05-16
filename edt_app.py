@@ -2,7 +2,6 @@ import streamlit as st
 from openai import OpenAI
 import os
 
-
 os.environ['OPENAI_API_KEY'] = st.secrets["openai"]["api_key"]
 client = OpenAI()
 
@@ -33,17 +32,22 @@ def check_password():
     else:
         # Password correct.
         return True
-    
+
 def generate_email(sender, recipient, template_type, previous_email, tone, topics, language):
-    topics_text = "\n".join([f"- {topic}" for topic in topics])
+    topics_text = "\n".join([f"{i+1}. {topic}" for i, topic in enumerate(topics)])
     previous_email_text = f"\n\nPrevious Email Thread:\n{previous_email}" if previous_email else ""
-    
+
+    language_instruction = {
+        "English (UK)": "Use British English spelling and grammar.",
+        "English (US)": "Use American English spelling and grammar."
+    }.get(language, f"Write the email in {language}.")
+
     prompt = (
-        f"You are an AI assistant that generates personalized email drafts. "
         f"Create an email from {sender['name']} ({sender['job_title']}, {sender['email']}, {sender.get('telephone', '')}) "
         f"to {recipient['name']} ({recipient.get('email', '')}, {recipient.get('company', '')}). "
         f"The email is a {template_type} type, written in a {tone} tone. "
         f"Cover the following topics:\n{topics_text}{previous_email_text}\n\n"
+        f"{language_instruction}\n\n"
         f"Please format the email appropriately with a subject, greeting, body, and closing."
     )
 
@@ -51,7 +55,7 @@ def generate_email(sender, recipient, template_type, previous_email, tone, topic
         "You are an AI assistant specializing in generating well-crafted, personalized email drafts. "
         "Your task is to create an effective email based on the user's inputs. "
         "Ensure that the email is structured with a subject, greeting, body, and closing. "
-        "Use appropriate language, tone, and formatting suited to the selected template type (e.g., Welcome, Follow-up, Reply, Sales/Marketing/Outreach). "
+        "Use appropriate language, tone, and formatting suited to the selected template type (e.g., Welcome, Follow-up, Reply, Sales, Marketing, Outreach). "
         "Adhere to the tone specified by the user (Friendly, Professional, Serious, Casual). "
         "Incorporate the topics provided by the user, ensuring they are clearly addressed in the email content. "
         "If a previous email thread is supplied, integrate its context seamlessly into the email. "
@@ -102,11 +106,19 @@ def main():
     recipient_company = st.text_input("Recipient Company (Optional)")
 
     st.header("Email Details")
-    template_type = st.selectbox("Template Type", ["Welcome", "Follow-up", "Reply", "Sales/Marketing/Outreach"])
+    template_type = st.selectbox("Template Type", ["Welcome", "Follow-up", "Reply", "Sales", "Marketing", "Outreach"])
     previous_email = st.text_area("Previous Email History (Optional)")
     tone = st.selectbox("Tone of the Email", ["Friendly", "Professional", "Serious", "Casual"])
     language = st.selectbox("Language", ["English (UK)", "English (US)", "French", "Portuguese", "Spanish", "German", "Italian", "Turkish", "Japanese", "Chinese", "Vietnamese", "Korean", "Russian", "Persian", "Arabic", "Urdu", "Hindi", "Tamil"])
-    topics = st.text_area("Topics to Cover (separate points by new lines)").split('\n')
+    
+    topics = []
+    for i in range(3):
+        topics.append(st.text_input(f"Topic {i + 1}"))
+    
+    add_more_topics = st.checkbox("Add more topics")
+    if add_more_topics:
+        extra_topics = st.text_area("Additional Topics (one per line)").split('\n')
+        topics.extend(extra_topics)
 
     run_button = st.button("Generate Email")
     
@@ -135,3 +147,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
