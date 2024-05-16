@@ -140,6 +140,15 @@ def main():
         st.markdown("---")
         st.header("Generated Email")
         st.text_area("Draft Email", value=email, height=300)
+        
+        # Copy to clipboard button
+        st.markdown("""
+            <button onclick="document.getElementById('email_content').select();document.execCommand('copy')">
+                Copy to Clipboard
+            </button>
+            <textarea id="email_content" style="display:none;">{}</textarea>
+        """.format(email), unsafe_allow_html=True)
+        
         st.markdown("---")
         st.write("Thank you for using the Personalized Email Drafting Tool!")
     else:
