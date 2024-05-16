@@ -1,7 +1,6 @@
 import streamlit as st
 from openai import OpenAI
 import os
-from streamlit_copy_to_clipboard import copy_to_clipboard
 
 os.environ['OPENAI_API_KEY'] = st.secrets["openai"]["api_key"]
 client = OpenAI()
@@ -140,11 +139,8 @@ def main():
         
         st.markdown("---")
         st.header("Generated Email")
-        st.text_area("Draft Email", value=email, height=300)
+        st.code(email, language='')
 
-        # Copy to Clipboard button using streamlit-copy-to-clipboard
-        copy_to_clipboard(email, "Copy to Clipboard")
-        
         st.markdown("---")
         st.write("Thank you for using the Personalized Email Drafting Tool!")
     else:
