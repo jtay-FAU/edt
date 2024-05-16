@@ -106,10 +106,10 @@ def main():
     recipient_company = st.text_input("Recipient Company (Optional)")
 
     st.header("Email Details")
-    template_type = st.selectbox("Template Type", ["Welcome", "Follow-up", "Reply", "Sales", "Marketing", "Outreach"])
+    template_type = st.selectbox("Template Type", ["Welcome", "Introduction", "Reply", "Follow-up", "Sales", "Marketing", "Outreach", "Reminder", "Invitation", "Announcement", "Congratulatory", "Update", "Apology"])
     previous_email = st.text_area("Previous Email History (Optional)")
-    tone = st.selectbox("Tone of the Email", ["Friendly", "Professional", "Serious", "Casual"])
-    language = st.selectbox("Language", ["English (UK)", "English (US)", "French", "Portuguese", "Spanish", "German", "Italian", "Turkish", "Japanese", "Chinese", "Vietnamese", "Korean", "Russian", "Persian", "Arabic", "Urdu", "Hindi", "Tamil"])
+    tone = st.selectbox("Tone of the Email", ["Friendly", "Encouraging", "Optimistic", "Inspirational", "Grateful", "Polite", "Empathetic", "Professional", "Serious", "Casual", "Formal", "Informal", "Neutral", "Urgent", "Assertive", "Apologetic"])
+    language = st.selectbox("Language", ["English (UK)", "English (US)", "Arabic", "Chinese", "French", "German", "Hindi", "Italian", "Japanese", "Korean", "Persian", "Portuguese", "Russian", "Spanish", "Tamil", "Turkish", "Urdu", "Vietnamese"])
 
     st.header("Topics")
     st.markdown("""
